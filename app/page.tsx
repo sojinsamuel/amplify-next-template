@@ -9,7 +9,7 @@ import outputs from "@/amplify_outputs.json";
 
 import { Authenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
-import { getMedia } from "@/app/actions/media";
+import { getMedia } from "./actions/media";
 
 Amplify.configure(outputs);
 
