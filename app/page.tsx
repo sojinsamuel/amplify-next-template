@@ -24,7 +24,7 @@ export default function App() {
     });
   }
   async function getMedia() {
-    const response = await fetch("http://localhost:3000/api/media", {
+    const response = await fetch("/api/media", {
       cache: "no-cache",
     });
 
