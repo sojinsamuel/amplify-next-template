@@ -42,7 +42,7 @@ export default function App() {
       {({ signOut, user }) => (
         <main>
           <h1>My todos</h1>
-          {/* <pre>{user?.username}</pre> */}
+          <pre>{user?.signInDetails?.loginId}'s Todos</pre>
           <button onClick={createTodo}>+ new</button>
           <ul>
             {todos.map((todo) => (
