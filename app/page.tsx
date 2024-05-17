@@ -9,6 +9,7 @@ import outputs from "@/amplify_outputs.json";
 
 import { Authenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
+import { getMedia } from "@/app/actions/media";
 
 Amplify.configure(outputs);
 
@@ -16,6 +17,7 @@ const client = generateClient<Schema>();
 
 export default function App() {
   const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
+  const [media, setMedia] = useState<any>();
 
   function listTodos() {
     client.models.Todo.observeQuery().subscribe({
@@ -37,12 +39,19 @@ export default function App() {
     client.models.Todo.delete({ id });
   }
 
+  async function getResults() {
+    const result = await getMedia();
+    setMedia(result);
+    console.log(result);
+  }
+
   return (
     <Authenticator>
       {({ signOut, user }) => (
         <main>
           <h1>My todos</h1>
           <pre>{user?.signInDetails?.loginId}'s Todos</pre>
+          <pre>{JSON.stringify(media) || "No media"}</pre>
           <button onClick={createTodo}>+ new</button>
           <ul>
             {todos.map((todo) => (
@@ -58,6 +67,9 @@ export default function App() {
               Review next steps of this tutorial.
             </a>
           </div>
+          <button onClick={getResults} style={{ marginBottom: "15px" }}>
+            get json
+          </button>
           <button onClick={signOut}>Sign out</button>
         </main>
       )}
