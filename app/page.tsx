@@ -9,7 +9,6 @@ import outputs from "@/amplify_outputs.json";
 
 import { Authenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
-import { getMedia } from "./actions/media";
 
 Amplify.configure(outputs);
 
@@ -24,7 +23,16 @@ export default function App() {
       next: (data) => setTodos([...data.items]),
     });
   }
+  async function getMedia() {
+    const response = await fetch("http://localhost:3000/api/media", {
+      cache: "no-cache",
+    });
 
+    const json = await response.json();
+    console.log(json);
+    setMedia(json);
+    // if (data?.text) setMedia(data?.text);
+  }
   useEffect(() => {
     listTodos();
   }, []);
@@ -37,12 +45,6 @@ export default function App() {
 
   function deleteTodo(id: string) {
     client.models.Todo.delete({ id });
-  }
-
-  async function getResults() {
-    const result = await getMedia();
-    setMedia(result);
-    console.log(result);
   }
 
   return (
@@ -67,7 +69,7 @@ export default function App() {
               Review next steps of this tutorial.
             </a>
           </div>
-          <button onClick={getResults} style={{ marginBottom: "15px" }}>
+          <button onClick={getMedia} style={{ marginBottom: "15px" }}>
             get json
           </button>
           <button onClick={signOut}>Sign out</button>
